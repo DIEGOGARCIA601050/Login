@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrate</title>
+</head>
+<body>
+    <form action="f">
+        <label for="nombre">
+            Introduzca su nombre
+        </label><br>
+        <input type="text" name="nombre" id="nombre" />
+        <label for="apellido">
+            Introduzca su primer apellido
+        </label><br>
+        <input type="text" name="apellido" id="apellido">
+        <label for="dollars">
+          Introduzca su edad </label
+        ><br />
+        <input type="number" id="dollars" name="dollars" />
+        <input type="submit" contenteditable="enviar" />
+      </form>
+    <script>
+        console.log('funciona');
+        let Cantidad;
+        document.querySelector('form')
+            .addEventListener('submit', e => {
+                e.preventDefault()
+                const data = Object.fromEntries(
+                new FormData(e.target)
+                )
+                alert(JSON.stringify(data))
+                Cantidad = JSON?.stringify(data)
+                Cantidad = JSON.parse(Cantidad)
+                console.info(Cantidad)
+            })
+    </script>
+</body>
+</html>
