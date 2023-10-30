@@ -4,37 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrate</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <form action="f">
+    <form action="f" class="formulario">
         <label for="nombre">
             Introduzca su nombre
-        </label><br>
+        </label>
         <input type="text" name="nombre" id="nombre" />
         <label for="apellido">
             Introduzca su primer apellido
-        </label><br>
+        </label>
         <input type="text" name="apellido" id="apellido">
-        <label for="dollars">
-          Introduzca su edad </label
-        ><br />
-        <input type="number" id="dollars" name="dollars" />
+        <label for="contrasena">Crea una contraseña</label>
+        <input type="password" name="contrasena" id="contrasena">
+        <label for="edad">
+          Introduzca su edad 
+        </label>
+        <input type="number" id="edad" name="edad" />
         <input type="submit" contenteditable="enviar" />
       </form>
-    <script>
-        console.log('funciona');
-        let Cantidad;
-        document.querySelector('form')
-            .addEventListener('submit', e => {
-                e.preventDefault()
-                const data = Object.fromEntries(
-                new FormData(e.target)
-                )
-                alert(JSON.stringify(data))
-                Cantidad = JSON?.stringify(data)
-                Cantidad = JSON.parse(Cantidad)
-                console.info(Cantidad)
-            })
-    </script>
+    <script src="./login.js"></script>
 </body>
 </html>
