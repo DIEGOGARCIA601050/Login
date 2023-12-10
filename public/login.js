@@ -1,6 +1,7 @@
+let Cantidad;
 document.querySelector('form')
     .addEventListener('submit', e => {
-        let Cantidad;
+        
         e.preventDefault()
         const data = Object.fromEntries(
         new FormData(e.target)
@@ -11,3 +12,7 @@ document.querySelector('form')
         console.info(Cantidad)
         return Cantidad
     })
+
+module.exports = {
+    Cantidad
+}
