@@ -14,40 +14,37 @@ app.use(express.json())
 app.disable('x-powered-by')
   
   // Conéctate a la base de datos
-  connection.connect((err) => {
-    if (err) {
-      return console.error('Error conectando a la base de datos:', err);
-    }
-    console.log('Conectado a la base de datos MySQL.');
+//   connection.connect((err) => {
+//     if (err) {
+//       return console.error('Error conectando a la base de datos:', err);
+//     }
+//     console.log('Conectado a la base de datos MySQL.');
   
-        // Realiza una consulta SQL
-        connection.query('SELECT * FROM registrados', (err, rows) => {
-        if (err) {
-            return console.error('Error ejecutando la consulta:', err);
-        }
+//         // Realiza una consulta SQL
+//         connection.query('SELECT * FROM registrados', (err, rows) => {
+//         if (err) {
+//             return console.error('Error ejecutando la consulta:', err);
+//         }
     
-        // Imprime los resultados de la consulta
-        console.log(rows);
+//         // Imprime los resultados de la consulta
+//         console.log(rows);
     
-        // Cierra la conexión a la base de datos
-        connection.end((err) => {
-            if (err) {
-            return console.error('Error cerrando la conexión a la base de datos:', err);
-            }
-            console.log('Conexión a la base de datos cerrada.');
-       })
-    })
-});
-  
+//         // Cierra la conexión a la base de datos
+//         connection.end((err) => {
+//             if (err) {
+//             return console.error('Error cerrando la conexión a la base de datos:', err);
+//             }
+//             console.log('Conexión a la base de datos cerrada.');
+//     })
+//     })
+// });
 
 app.get('/',(req, resp)=>{
     resp.sendFile(path.resolve('../public/index.html'));
-    // resp.sendFile(path.resolve('../login.js'));
-    // resp.sendFile(path.resolve('../styles.css'));
 })
 
 app.get('/red-social', (req, res) => {
-    res.send('<img alt="red-social" src="https://images.unsplash.com/photo-1600096194534-95cf5ece04cf?q=80&w=1376&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>')
+    res.sendFile(path.resolve('../../Conversor/alexander-sinn-YYUM2sNvnvU-unsplash.jpg'))
 })
 
 app.get('/usuarios/registro', cors(), (req, resp)=>{
