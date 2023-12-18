@@ -1,3 +1,4 @@
+const { ValidateSchema } = require('./Schema.js')
 const path = require('path');
 const cors = require('cors')
 const express = require('express')
@@ -59,9 +60,11 @@ app.get('/usuarios/registro', cors(), (req, resp)=>{
 app.post('/', cors(), (req, res) => {
     const data = req.body;
     console.log(data);
-    res.status(201).json({
-        mensage: 'recibido'
-    })
+    if (ValidateSchema(data)) {
+        res.status(201).json({
+            mensage: 'recibido'
+        })
+    }
 })
 
 app.put('/usuarios',(req, resp)=>{
