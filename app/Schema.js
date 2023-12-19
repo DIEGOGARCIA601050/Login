@@ -6,16 +6,17 @@ const schema = z.object({
     apellido: z.string({
         invalid_type_error: 'Dato ingresado incorrecto'
       }),
-    contraseña: z.string({
+    contrasena: z.string({
         invalid_type_error: 'Dato ingresado incorrecto'
       }),
-    edad: z.string({
+    edad: z.number({
         invalid_type_error: 'Dato ingresado incorrecto'
-      }) 
+      }).int()
 })
 
 function ValidateSchema(Object) {
-    const Validate = schema.safeParse()
+    const Validate = schema.safeParse(Object)
+    console.log(Validate);
     if (Validate.success) {
         return true
     } else if (!Validate.success) {

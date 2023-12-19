@@ -10,6 +10,8 @@ document.querySelector('form')
         Usuario = JSON?.stringify(data)
         Usuario = JSON.parse(Usuario)
         console.info(Usuario)
+        Usuario.edad = parseInt(Usuario.edad)
+        console.info(Usuario)
         fetch('http://localhost:3000', {
             method: 'POST',
             headers: {

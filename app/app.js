@@ -59,10 +59,14 @@ app.get('/usuarios/registro', cors(), (req, resp)=>{
 
 app.post('/', cors(), (req, res) => {
     const data = req.body;
-    console.log(data);
+    
     if (ValidateSchema(data)) {
-        res.status(201).json({
-            mensage: 'recibido'
+        res.status(201).send({
+            "mensaje": "recibido"
+        })
+    } else {
+        res.status(400).json({
+            "error": "El formato del mensaje no es correcto"
         })
     }
 })

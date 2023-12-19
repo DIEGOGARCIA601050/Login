@@ -1,9 +1,0 @@
-POST http://localhost:3000/
-Content-Type: 'application/json'
-
-{
-    "nombre": "Diego",
-    "apellido": "Garcia",
-    "contraseña": "d83jcd9shrufids98hri9ds",
-    "edad": 17
-}
