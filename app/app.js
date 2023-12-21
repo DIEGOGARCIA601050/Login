@@ -3,13 +3,26 @@ const path = require('path');
 const cors = require('cors')
 const express = require('express')
 const { connection } = require('./database.js')
-// const { response } = require('express');
-// const { json } = require('express/lib/response');
+const PORT = process.env.PORT ?? 3000
 
 const app = express()
 
 app.use(express.static('../public'))
-app.use(cors())
+app.use(cors({
+    origin: (origin, callback) => {
+      const AceptedOrigins = [
+        '*',
+        'dominio.example'
+      ]
+      if (AceptedOrigins.includes(origin)) {
+        return callback(null, true)
+      }
+      if (!origin) {
+        return callback(null, true)
+      }
+      return callback(new Error('No hay cors'))
+    }
+  }))
 app.use(express.json())
 
 app.disable('x-powered-by')
@@ -87,5 +100,5 @@ app.use((req, res) => {
     res.status(404).send('<h1>Error 404: page not found')
 })
 
-app.listen(3000)
-console.log(`Server on  http://localhost:${3000}`)
+app.listen(PORT)
+console.log(`Server on  http://localhost:${PORT}`)
