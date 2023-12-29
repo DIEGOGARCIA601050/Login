@@ -11,7 +11,7 @@ app.use(express.static('../public'))
 app.use(cors({
     origin: (origin, callback) => {
       const AceptedOrigins = [
-        '*',
+        'http://localhost:3000',
         'dominio.example'
       ]
       if (AceptedOrigins.includes(origin)) {
@@ -28,30 +28,6 @@ app.use(express.json())
 app.disable('x-powered-by')
   
   // Conéctate a la base de datos
-//   connection.connect((err) => {
-//     if (err) {
-//       return console.error('Error conectando a la base de datos:', err);
-//     }
-//     console.log('Conectado a la base de datos MySQL.');
-  
-//         // Realiza una consulta SQL
-//         connection.query('SELECT * FROM registrados', (err, rows) => {
-//         if (err) {
-//             return console.error('Error ejecutando la consulta:', err);
-//         }
-    
-//         // Imprime los resultados de la consulta
-//         console.log(rows);
-    
-//         // Cierra la conexión a la base de datos
-//         connection.end((err) => {
-//             if (err) {
-//             return console.error('Error cerrando la conexión a la base de datos:', err);
-//             }
-//             console.log('Conexión a la base de datos cerrada.');
-//     })
-//     })
-// });
 
 app.get('/',(req, resp)=>{
     resp.sendFile(path.resolve('../public/index.html'));
@@ -62,18 +38,30 @@ app.get('/red-social', (req, res) => {
 })
 
 app.get('/usuarios/registro', cors(), (req, resp)=>{
-    resp.json({
-        nombre: 'John',
-        edad: 25,
-        correo: 'john.adams@example-pet-store.com'
+    // Consulta simples
+connection.query(
+    'SELECT * FROM registrados',
+    function(err, results, fields) {
+      // "results" contêm as linhas retornadas pelo servidor
+      resp.json(results)
     }
-    )
+  );
 })
 
 app.post('/', cors(), (req, res) => {
     const data = req.body;
     
     if (ValidateSchema(data)) {
+        connection.query(
+            `insert into registrados(nombre, apellido, contraseña, edad) values ('${data.nombre}', '${data.apellido}', '${data.contrasena}', ${data.edad})`,
+            function(err, results, fields) {
+                if (err) {
+                    console.log(err);
+                    return false
+                }
+                console.log(results); // "results" contêm as linhas retornadas pelo servidor
+            }
+        );
         res.status(201).send({
             "mensaje": "recibido"
         })

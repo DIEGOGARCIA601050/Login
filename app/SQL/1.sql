@@ -1,3 +1,4 @@
+drop database if exists usuarios;
 create database usuarios;
 use usuarios;
 create table registrados (
@@ -38,4 +39,4 @@ select distinct contraseña from registrados;
 select distinct contraseña from registrados order by rand();
 
 
-DELETE FROM registrados WHERE id=5;
+DELETE FROM registrados WHERE id=6;

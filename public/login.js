@@ -19,7 +19,7 @@ document.querySelector('form')
             },
             body: JSON.stringify(Usuario)
         })
-        .then(res => res.json())
+        .then(res => typeof res === 'object' ? res.json() : res.text())
         .then(data => {
             console.info(data)
         })
