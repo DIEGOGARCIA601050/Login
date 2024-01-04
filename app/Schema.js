@@ -24,6 +24,17 @@ function ValidateSchema(Object) {
     }
 }
 
+function ValidatePartialSchema(Object) {
+  const Validate = schema.partial().safeParse(Object)
+  console.log(Validate);
+  if (Validate.success) {
+    return true
+  } else if (!Validate.success) {
+    return false
+  }
+}
+
 module.exports = {
-    ValidateSchema
+    ValidateSchema,
+    ValidatePartialSchema
 }

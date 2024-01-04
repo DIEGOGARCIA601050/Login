@@ -1,4 +1,4 @@
-const { ValidateSchema } = require('./Schema.js')
+const { ValidateSchema, ValidatePartialSchema } = require('./Schema.js')
 const path = require('path');
 const cors = require('cors')
 const express = require('express')
@@ -37,11 +37,15 @@ app.get('/red-social', (req, res) => {
     res.sendFile(path.resolve('../../Conversor/alexander-sinn-YYUM2sNvnvU-unsplash.jpg'))
 })
 
-app.get('/usuarios/registro', cors(), (req, resp)=>{
+app.get('/usuarios', cors(), (req, resp)=>{
     // Consulta simples
 connection.query(
     'SELECT * FROM registrados',
     function(err, results, fields) {
+        if (err) {
+            console.log(err);
+            return false
+        }
       // "results" contêm as linhas retornadas pelo servidor
       resp.json(results)
     }
@@ -76,12 +80,34 @@ app.put('/usuarios',(req, resp)=>{
     resp.send('usuario actualizado exitosamente');
 })
 
-app.delete('/usuarios',(req, resp)=>{
-    resp.send('usuario borrado exitosamente')
+app.patch('/usuarios/:id', (req, resp) => {
+    const { id } = req.params
+    const { nombre, apellido, contrasena, edad } = req.body
+    const Validador = ValidatePartialSchema(req.body)
+    if (!Validador) {
+        resp.status(400).json({
+            "error": "El formato del mensaje no es correcto"
+        })
+        return false
+    }
+    connection.query(`update registrados set nombre = '${nombre}' where id = ${id}`, (err, results, fields) => {
+        if (err) {return false} else {console.log(results);}
+    })
+    resp.send('cambios realizados en el usuario exitosamente mierda')
 })
 
-app.patch('/usuarios',(req, resp)=>{
-    resp.send('cambios realizados en el usuario exitosamente')
+app.delete('/usuarios/:id', (req, resp) => {
+    const { id } = req.params
+    connection.query(`delete from registrados where id = ${id}`, (err, results, fields) => {
+        if (err) {
+            console.log(err);
+            resp.status(500).send('error interno')
+        } else {
+            console.log(fields);
+            console.log(results);
+            resp.send('usuario borrado exitosamente')
+        }
+    })   
 })
 
 app.use((req, res) => {
