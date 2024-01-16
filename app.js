@@ -1,6 +1,8 @@
-const { ValidateSchema, ValidatePartialSchema } = require('./Schema.js')
-const path = require('path');
-const cors = require('cors')
+const { ValidateSchema, ValidatePartialSchema } = require('./Schemas/Schema.js')
+const { Cors } = require('./Midllewares/cors.js')
+
+const path = require('node:path');
+
 const express = require('express')
 const { connection } = require('./database.js')
 const PORT = process.env.PORT ?? 3000
@@ -8,28 +10,15 @@ const PORT = process.env.PORT ?? 3000
 const app = express()
 
 app.use(express.static('../public'))
-app.use(cors({
-    origin: (origin, callback) => {
-      const AceptedOrigins = [
-        'http://localhost:3000',
-        'dominio.example'
-      ]
-      if (AceptedOrigins.includes(origin)) {
-        return callback(null, true)
-      }
-      if (!origin) {
-        return callback(null, true)
-      }
-      return callback(new Error('No hay cors'))
-    }
-  }))
+app.use(Cors())
 app.use(express.json())
 
 app.disable('x-powered-by')
-  
-  // Conéctate a la base de datos
 
-app.get('/',(req, resp)=>{
+app.get('/', (req, res) => {
+    res.json()
+})
+app.get('/login',(req, resp)=>{
     resp.sendFile(path.resolve('../public/index.html'));
 })
 
@@ -37,7 +26,7 @@ app.get('/red-social', (req, res) => {
     res.sendFile(path.resolve('../../Conversor/alexander-sinn-YYUM2sNvnvU-unsplash.jpg'))
 })
 
-app.get('/usuarios', cors(), (req, resp)=>{
+app.get('/usuarios', Cors(), (req, resp)=>{
     // Consulta simples
 connection.query(
     'SELECT * FROM registrados',
@@ -52,7 +41,7 @@ connection.query(
   );
 })
 
-app.post('/', cors(), (req, res) => {
+app.post('/', Cors(), (req, res) => {
     const data = req.body;
     
     if (ValidateSchema(data)) {
