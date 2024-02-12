@@ -1,6 +1,6 @@
 const { ValidateSchema, ValidatePartialSchema } = require('./Schemas/Schema.js')
 const { Cors } = require('./Midllewares/cors.js')
-const Pokenons = require('./pokemones.json')
+const pokemons = require('./pokemones.json')
 
 const path = require('node:path');
 
@@ -10,17 +10,17 @@ const PORT = process.env.PORT ?? 3000
 
 const app = express()
 
-app.use(express.static('../public'))
+app.use(express.static('public'))
 app.use(Cors())
 app.use(express.json())
 
 app.disable('x-powered-by')
 
 app.get('/', (req, res) => {
-    res.json(Pokenons)
+    res.json(pokemons)
 })
 app.get('/login',(req, resp)=>{
-    resp.sendFile(path.resolve('../public/index.html'));
+    resp.sendFile(path.resolve('public/index.html'));
 })
 
 app.get('/red-social', (req, res) => {
@@ -29,6 +29,7 @@ app.get('/red-social', (req, res) => {
 
 app.get('/usuarios', Cors(), (req, resp)=>{
     // Consulta simples
+    console.log(connection);
 connection.query(
     'SELECT * FROM registrados',
     function(err, results, fields) {
@@ -42,12 +43,13 @@ connection.query(
   );
 })
 
-app.post('/login', Cors(), (req, res) => {
+app.post('/', Cors(), (req, res) => {
     const data = req.body;
     
     if (ValidateSchema(data)) {
         connection.query(
-            `insert into registrados(nombre, apellido, contraseña, edad) values ('${data.nombre}', '${data.apellido}', '${data.contrasena}', ${data.edad})`,
+            `insert into registrados(nombre, apellido, contraseña, edad) values (?, ?, ?, ?)`,
+            Object.values(data),
             function(err, results, fields) {
                 if (err) {
                     console.log(err);
@@ -74,13 +76,13 @@ app.patch('/usuarios/:id', (req, resp) => {
     const { id } = req.params
     const { nombre, apellido, contrasena, edad } = req.body
     const Validador = ValidatePartialSchema(req.body)
-    if (!Validador) {
+    if (!Validador || !id) {
         resp.status(400).json({
             "error": "El formato del mensaje no es correcto"
         })
         return false
     }
-    connection.query(`update registrados set nombre = '${nombre}' where id = ${id}`, (err, results, fields) => {
+    connection.query(`update registrados set nombre = ? where id = ?`, [nombre, id], (err, results, fields) => {
         if (err) {return false} else {console.log(results);}
     })
     resp.send('cambios realizados en el usuario exitosamente mierda')
@@ -88,10 +90,11 @@ app.patch('/usuarios/:id', (req, resp) => {
 
 app.delete('/usuarios/:id', (req, resp) => {
     const { id } = req.params
-    connection.query(`delete from registrados where id = ${id}`, (err, results, fields) => {
+    if(!id) resp.status(422).send('id no encontrado')
+    connection.query(`delete from registrados where id = ?`, [id], (err, results, fields) => {
         if (err) {
             console.log(err);
-            resp.status(500).send('error interno')
+            resp.status(500).send('error interno al conectar con base de datos')
         } else {
             console.log(fields);
             console.log(results);
@@ -101,7 +104,7 @@ app.delete('/usuarios/:id', (req, resp) => {
 })
 
 app.use((req, res) => {
-    res.status(404).send('<h1>Error 404: page not found')
+    res.status(404).send('<h1>Error 404: page not found</h1>')
 })
 
 app.listen(PORT)
