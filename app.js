@@ -1,5 +1,6 @@
 const { ValidateSchema, ValidatePartialSchema } = require('./Schemas/Schema.js')
 const { Cors } = require('./Midllewares/cors.js')
+const Pokenons = require('./pokemones.json')
 
 const path = require('node:path');
 
@@ -16,7 +17,7 @@ app.use(express.json())
 app.disable('x-powered-by')
 
 app.get('/', (req, res) => {
-    res.json()
+    res.json(Pokenons)
 })
 app.get('/login',(req, resp)=>{
     resp.sendFile(path.resolve('../public/index.html'));
@@ -41,7 +42,7 @@ connection.query(
   );
 })
 
-app.post('/', Cors(), (req, res) => {
+app.post('/login', Cors(), (req, res) => {
     const data = req.body;
     
     if (ValidateSchema(data)) {
