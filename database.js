@@ -15,7 +15,7 @@ class Config {
   }
   }
 }
-const config = new Config('localhost', 3306, 'root', 'sqllentesedmundo', 'usuarios');
+const config = new Config('localhost', 3306, 'root', 'D34TH-N0T3', 'usuarios');
 // Cria a conexão com o Banco de Dados
 Object.freeze(config)
 const config2 = new Config('localhost', 3532, 'root', '13455', 'registrados');
