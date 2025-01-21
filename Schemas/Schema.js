@@ -3,7 +3,7 @@ const schema = z.object({
     nombre: z.string({
         invalid_type_error: 'Dato ingresado incorrecto'
       }),
-    apellido: z.string({
+    correo: z.string({
         invalid_type_error: 'Dato ingresado incorrecto'
       }),
     contrasena: z.string({

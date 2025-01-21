@@ -42,11 +42,14 @@ app.get('/usuarios', Cors(), async (req, resp) => {
 
 app.post('/', Cors(), async (req, res) => {
     const data = req.body;
+    if(typeof data === 'string') {
+        data = JSON.parse(data);
+    }
     const connect = await connection; // Esperar a que se resuelva la conexión
     try {
         if (ValidateSchema(data)) {
             const result = await connect.query(
-                `INSERT INTO registrados(nombre, apellido, contrasena, edad) VALUES (?, ?, ?, ?)`,
+                `INSERT INTO registrados(nombre, correo, contrasena, edad) VALUES (?, ?, ?, ?)`,
                 Object.values(data)
             ); // Usar await para la consulta
             console.log(result); // "result" contiene las filas afectadas

@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:20
 
 # Crear el directorio de trabajo
 WORKDIR /home/Login
