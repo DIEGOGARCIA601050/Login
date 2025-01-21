@@ -1,0 +1,5 @@
+FROM mysql:latest
+
+# Establecer las variables de entorno para la configuración de MySQL
+ENV MYSQL_ROOT_PASSWORD=D34THN0T3
+ENV MYSQL_DATABASE=usuarios

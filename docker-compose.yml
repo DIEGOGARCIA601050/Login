@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  db:
+    build: 
+      context: .
+      dockerfile: ./SQL/dockerfile
+    container_name: db
+    ports:
+      - "3306:3306"
+  web:
+    build: 
+      context: .
+      dockerfile: dockerfile
+    container_name: web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
