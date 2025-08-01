@@ -39,10 +39,27 @@ app.get('/usuarios', Cors(), async (req, resp) => {
     }
 });
 
+app.get('/usuarios/?password&username', async (req, resp) => {
+    const { password, username } = req.query;
+
+    if (!password || !username) {
+        return resp.status(422).send('contraseña o usuario incorrectos');
+    }
+
+    const connect = await connection;
+    try {
+        const [result] = await connect.query(`SELECT * FROM registrados WHERE contrasena = ? AND nombre = ?`, [password, username]);
+        resp.json(result);
+    } catch (error) {
+        console.log(error);
+        resp.status(500).send('Error al consultar la base de datos');
+    }
+});
+
 
 app.post('/', Cors(), async (req, res) => {
     const data = req.body;
-    if(typeof data === 'string') {
+    if (typeof data === 'string') {
         data = JSON.parse(data);
     }
     const connect = await connection; // Esperar a que se resuelva la conexión
@@ -63,7 +80,7 @@ app.post('/', Cors(), async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).send('Error al insertar en la base de datos');
+        res.status(500).send({ 'error': 'Error al insertar en la base de datos' });
     }
 });
 
@@ -87,11 +104,11 @@ app.patch('/usuarios/:id', async (req, resp) => {
     try {
         for (const element in req.body) {
             if (Object.prototype.hasOwnProperty.call(req.body, element)) {
-                const result = await connect.query(`UPDATE registrados SET ${element} = ? WHERE id = ?`, [req.body[element]]);
+                const result = await connect.query(`UPDATE registrados SET ${element} = ? WHERE id = ?`, [req.body[element], id]);
                 console.log(result);
-                resp.send('cambios realizados en el usuario exitosamente');
             }
         }
+        resp.send('cambios realizados en el usuario exitosamente');
     } catch (error) {
         console.log(error);
         resp.status(500).send('Error al actualizar el usuario');
