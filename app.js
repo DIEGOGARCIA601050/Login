@@ -104,7 +104,7 @@ app.patch('/usuarios/:id', async (req, resp) => {
     try {
         for (const element in req.body) {
             if (Object.prototype.hasOwnProperty.call(req.body, element)) {
-                const result = await connect.query(`UPDATE registrados SET ${element} = ? WHERE id = ?`, [req.body[element], id]);
+                const result = await connect.query(`UPDATE registrados SET ? = ? WHERE id = ?`,element [req.body[element], id]);
                 console.log(result);
             }
         }
