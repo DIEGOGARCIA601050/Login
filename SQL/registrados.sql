@@ -7,4 +7,5 @@ CREATE TABLE registrados (
     correo VARCHAR(50) NOT NULL,
     contrasena VARCHAR(50) NOT NULL,
     edad INT NOT NULL
+    imagen VARCHAR(50),
 );
