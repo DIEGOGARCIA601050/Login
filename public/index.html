@@ -39,11 +39,16 @@
             </label>
             <input type="email" name="correo" id="correo" placeholder="ejemplo@correo.com" style="color: #fff;">
             <label class="Label" for="contrasena" style="color: #fff;">Crea una contraseña</label>
-            <input type="password" name="contrasena" id="contrasena" placeholder="Crea una contraseña segura" style="color: #fff;">
+            <input type="password" name="contrasena" id="contrasena" placeholder="Crea una contraseña segura"
+                style="color: #fff;">
             <label class="Label" for="edad" style="color: #fff;">
                 Introduzca su edad
             </label>
             <input type="number" id="edad" name="edad" placeholder="Ej: 25" min="13" max="120" style="color: #fff;">
+            <label class="Label" for="imagen" style="color: #fff;">
+                URL de tu imagen de perfil
+            </label>
+            <input type="file" id="imageInput" name="imagen" accept="image/*" required>
             <input type="submit" value="Registrarse" style="
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -59,7 +64,7 @@
     letter-spacing: 1px;
 ">
             <p style="margin-top: 20px;color: #666;font-size: 14px;color: #aaa;">
-                ¿Ya tienes una cuenta? <a href="../index.html"
+                ¿Ya tienes una cuenta? <a href="#"
                     style="color: #667eea;text-decoration: none;font-weight: 500;transition: color 0.3s ease;">Inicia
                     sesión aquí</a>
             </p>
